@@ -5,10 +5,17 @@ public class Request
 
 }
 
-public partial class BasicRequestInfoParameters
+public static class BasicRequestInfoParameters
 {
-    const uint CLIENT_VERSION = 62;
-    const string VERSION = "1.29.1";
-    const string BUILD = "111279";
-    const string PLATFORM = "IOS";
+    public const uint CLIENT_VERSION = 62;
+    public const string VERSION = "1.29.1";
+    public const string BUILD = "111279";
+    public const string PLATFORM = "IOS";
+    public static string EID { get; set; } = "";
+    
+    static BasicRequestInfoParameters()
+    {
+        Config config = Config.LoadConfig();
+        EID = config.EID;
+    }
 }
