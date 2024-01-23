@@ -9,6 +9,7 @@ public static class Config
     public const string VERSION = "1.29.1";
     public const string BUILD = "111279";
     public const string PLATFORM = "IOS";
+    public const uint CURRENT_CLIENT_VERSION = 999;
 
     static Config()
     {
