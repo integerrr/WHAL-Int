@@ -15,10 +15,10 @@ public class Request
             UserId = Config.EID
         };
 
-        return await MakeEggIncApiRequest("coop_status", coopStatusRequest, ContractCoopStatusResponse.Parser.ParseFrom);
+        return await makeEggIncApiRequest("coop_status", coopStatusRequest, ContractCoopStatusResponse.Parser.ParseFrom);
     }
 
-    private static async Task<T> MakeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod, bool isAuthenticatedMsg = true)
+    private static async Task<T> makeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod, bool isAuthenticatedMsg = true)
     {
         byte[] bytes;
         using (var stream = new MemoryStream())
@@ -29,7 +29,7 @@ public class Request
 
         Dictionary<string, string> body = new Dictionary<string, string> { { "data", Convert.ToBase64String(bytes) } };
 
-        string response = await PostRequest(endpoint, new FormUrlEncodedContent(body));
+        string response = await postRequest(endpoint, new FormUrlEncodedContent(body));
 
         if (isAuthenticatedMsg)
         {
@@ -43,7 +43,7 @@ public class Request
 
     }
 
-    private static async Task<string> PostRequest(string endpoint, FormUrlEncodedContent body)
+    private static async Task<string> postRequest(string endpoint, FormUrlEncodedContent body)
     {
         using (var client = new HttpClient())
         {

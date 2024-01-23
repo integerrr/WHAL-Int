@@ -1,7 +1,7 @@
 ﻿using Ei;
 using WHAL_Int.EggIncApi;
 
-class Program
+internal class Program
 {
     public static void Main(string[] args)
     {

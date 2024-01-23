@@ -2,7 +2,7 @@ namespace WHAL_Int.EggIncApi;
 
 public static class Config
 {
-    private const string EidTxtPath = "EID.txt";
+    private const string eid_txt_path = "EID.txt";
     public static string EID { get; } = "";
 
     public const uint CLIENT_VERSION = 62;
@@ -12,9 +12,9 @@ public static class Config
 
     static Config()
     {
-        if (File.Exists(EidTxtPath))
+        if (File.Exists(eid_txt_path))
         {
-            string eid = File.ReadAllText(EidTxtPath);
+            string eid = File.ReadAllText(eid_txt_path);
             EID = eid;
         }
     }
