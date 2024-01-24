@@ -2,6 +2,11 @@ namespace WHAL_Int.Maj;
 
 public class utils
 {
+
+    public const int SECONDS_IN_A_MINUTE = 60;
+    public const int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
+    public const int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
+
     /// <summary>
     /// Converts a Unix Epoch timestamp into a <c>DateTime</c> format
     /// </summary>

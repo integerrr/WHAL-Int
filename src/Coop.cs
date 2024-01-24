@@ -77,8 +77,39 @@ public class Coop
         // Calculate time to complete remaining eggs to ship
         double timeToCompleteInSeconds = amountLeft / totalProductionRateInSecs;
 
-        return unixTimestamp + timeToCompleteInSeconds;
+        return Math.Min(unixTimestamp + timeToCompleteInSeconds,9999999999);
+    }
 
+    /// <summary>
+    /// Gets the total duration of the coop in its current state, from start to projected completion
+    /// </summary>
+    /// <returns>
+    /// <c>string</c> in the format of <c>dd/hh/mm</c>, and "too long" if it's more than 99 days
+    /// </returns>
+    public string Duration()
+    {
+        // Calculate Unix timestamp of the completion deadline,
+        double completionDeadlineEpoch = utils.ConvertToUnixTimestamp(DateTime.UtcNow.AddSeconds(coopStatus.SecondsRemaining));
+        // find how many seconds completion time is from deadline,
+        double extraTimeInCoopInSecs = completionDeadlineEpoch - UnixCompletionTime();
+        // and finally subtract that from the contract length
+        double coopDurationInSecs = Request.GetContract(ContractId()).GradeSpecs[4].LengthSeconds - extraTimeInCoopInSecs;
+
+        // Find the total number of days, hours and minutes from the duration
+        double day = Math.Floor(coopDurationInSecs / utils.SECONDS_IN_A_DAY);
+        double hour = Math.Floor((coopDurationInSecs - day * utils.SECONDS_IN_A_DAY) / utils.SECONDS_IN_AN_HOUR);
+        double min = Math.Floor((coopDurationInSecs - day * utils.SECONDS_IN_A_DAY - hour * utils.SECONDS_IN_AN_HOUR) / utils.SECONDS_IN_A_MINUTE);
+
+        // Convert into string format of dd/hh/mm
+        string coopDurationAsString = "";
+
+        if (day > 99) return "too long";
+
+        coopDurationAsString += day > 0 ? $"{day}d" : "";
+        coopDurationAsString += hour > 0 ? $"{hour}h" : "";
+        coopDurationAsString += min > 0 ? $"{min}m" : "";
+
+        return coopDurationAsString;
     }
 
     private void requestCoopStatus()
