@@ -1,5 +1,6 @@
 ﻿using Ei;
 using WHAL_Int.EggIncApi;
+using WHAL_Int.Maj;
 
 internal class Program
 {
@@ -12,5 +13,9 @@ internal class Program
         }
 
         Console.WriteLine(Config.EID);
+
+        Coop coop = new("panama-canal-2024", "watery-poop-chute");
+        Console.WriteLine("Total boost tokens = {0}", coop.TotalTokens());
+        // coop.TestingGrounds();
     }
 }

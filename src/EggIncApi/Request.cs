@@ -28,6 +28,18 @@ public class Request
         return await makeEggIncApiRequest("coop_status", coopStatusRequest, ContractCoopStatusResponse.Parser.ParseFrom);
     }
 
+    public static async Task<EggIncFirstContactResponse> GetFirstContact()
+    {
+        EggIncFirstContactRequest firstContactRequest = new()
+        {
+            Rinfo = rInfo,
+            UserId = Config.EID,
+            ClientVersion = Config.CURRENT_CLIENT_VERSION
+        };
+
+        return await makeEggIncApiRequest("bot_first_contact", firstContactRequest, EggIncFirstContactResponse.Parser.ParseFrom, false);
+    }
+
     public static async Task<PeriodicalsResponse> GetPeriodicals()
     {
         GetPeriodicalsRequest getPeriodicalsRequest = new()

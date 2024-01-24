@@ -44,8 +44,13 @@ public class Coop
         return count;
     }
 
-    private async void requestCoopStatus()
+    private void requestCoopStatus()
     {
-        coopStatus = await Request.GetCoopStatus(contractId, coopId);
+        coopStatus = Request.GetCoopStatus(contractId, coopId).Result;
+    }
+
+    public void TestingGrounds()
+    {
+        Console.WriteLine(coopStatus);
     }
 }
