@@ -12,7 +12,8 @@ internal class Program
             return;
         }
 
-        Coop coop = new("panama-canal-2024", "watery-poop-chute");
+        ContractCoopStatusResponse response = Request.GetCoopStatus("panama-canal-2024", "watery-poop-chute").Result;
+        Coop coop = new(response);
         Console.WriteLine("Total boost tokens = " + coop.TotalTokens());
     }
 }

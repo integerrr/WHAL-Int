@@ -5,11 +5,15 @@ namespace WHAL_Int.Maj;
 
 public class Coop
 {
-    private ContractCoopStatusResponse? coopStatus;
+    private ContractCoopStatusResponse coopStatus;
 
-    public Coop(string contractId, string coopId)
+    public Coop(ContractCoopStatusResponse response)
     {
-        coopStatus = Request.GetCoopStatus(contractId, coopId).Result;
+        if (response.ResponseStatus != ContractCoopStatusResponse.Types.ResponseStatus.NoError)
+        {
+            throw new InvalidDataException("Cannot find coop, ResponseStatus = " + response.ResponseStatus);
+        }
+        coopStatus = response;
     }
 
     public string CoopId() => coopStatus.CoopIdentifier;
