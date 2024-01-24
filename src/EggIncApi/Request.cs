@@ -15,6 +15,8 @@ public class Request
         Platform = Config.PLATFORM
     };
 
+    private static Task<PeriodicalsResponse>? periodicals;
+
     public static async Task<ContractCoopStatusResponse> GetCoopStatus(string contractId, string coopId)
     {
         ContractCoopStatusRequest coopStatusRequest = new()
@@ -32,7 +34,6 @@ public class Request
     {
         EggIncFirstContactRequest firstContactRequest = new()
         {
-            Rinfo = rInfo,
             UserId = Config.EID,
             ClientVersion = Config.CURRENT_CLIENT_VERSION
         };
@@ -40,16 +41,19 @@ public class Request
         return await makeEggIncApiRequest("bot_first_contact", firstContactRequest, EggIncFirstContactResponse.Parser.ParseFrom, false);
     }
 
-    public static async Task<PeriodicalsResponse> GetPeriodicals()
+    public static async Task<PeriodicalsResponse> GetPeriodicals(bool refresh = false)
     {
-        GetPeriodicalsRequest getPeriodicalsRequest = new()
+        if (periodicals == null || refresh)
         {
-            Rinfo = rInfo,
-            UserId = Config.EID,
-            CurrentClientVersion = Config.CURRENT_CLIENT_VERSION
-        };
+            GetPeriodicalsRequest getPeriodicalsRequest = new()
+            {
+                UserId = Config.EID,
+                CurrentClientVersion = Config.CURRENT_CLIENT_VERSION
+            };
 
-        return await makeEggIncApiRequest("get_periodicals", getPeriodicalsRequest, PeriodicalsResponse.Parser.ParseFrom);
+            return await makeEggIncApiRequest("get_periodicals", getPeriodicalsRequest, PeriodicalsResponse.Parser.ParseFrom);
+        }
+        return await periodicals;
     }
 
     private static async Task<T> makeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod, bool isAuthenticatedMsg = true)
@@ -85,5 +89,23 @@ public class Request
             var response = await client.PostAsync(url, body);
             return await response.Content.ReadAsStringAsync();
         }
+    }
+
+    /*
+        =========================================================================
+        Below is simply additionals that can be retrieved from the above requests
+        =========================================================================
+    */
+
+    public static Google.Protobuf.Collections.RepeatedField<Contract> GetContracts() => GetPeriodicals().Result.Contracts.Contracts;
+    public static Contract GetContract(string contractId) {
+        var contracts = GetContracts();
+
+        string[] contractIds = contracts
+            .Select(c => c.Identifier)
+            .ToArray();
+
+        int targetContractIndex = Array.IndexOf(contractIds,contractId);
+        return contracts[targetContractIndex];
     }
 }
