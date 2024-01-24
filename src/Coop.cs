@@ -5,21 +5,16 @@ namespace WHAL_Int.Maj;
 
 public class Coop
 {
-    private string contractId = "";
-    private string coopId = "";
     private ContractCoopStatusResponse? coopStatus;
 
     public Coop(string contractId, string coopId)
     {
-        this.contractId = contractId;
-        this.coopId = coopId;
-
-        requestCoopStatus();
+        coopStatus = Request.GetCoopStatus(contractId, coopId).Result;
     }
 
-    public string CoopId() => coopId;
-    public string ContractId() => contractId;
-    public string StrippedCoopId() => coopId.Substring(0, 6);
+    public string CoopId() => coopStatus.CoopIdentifier;
+    public string ContractId() => coopStatus.ContractIdentifier;
+    public string StrippedCoopId() => CoopId().Substring(0, 6);
     public uint BoostedCount()
     {
         uint count = 0;
@@ -44,8 +39,8 @@ public class Coop
         return count;
     }
 
-    private async void requestCoopStatus()
+    private void requestCoopStatus()
     {
-        coopStatus = await Request.GetCoopStatus(contractId, coopId);
+        coopStatus = Request.GetCoopStatus(ContractId(), CoopId()).Result;
     }
 }
