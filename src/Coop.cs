@@ -5,21 +5,16 @@ namespace WHAL_Int.Maj;
 
 public class Coop
 {
-    private string contractId = "";
-    private string coopId = "";
     private ContractCoopStatusResponse? coopStatus;
 
     public Coop(string contractId, string coopId)
     {
-        this.contractId = contractId;
-        this.coopId = coopId;
-
-        requestCoopStatus();
+        coopStatus = Request.GetCoopStatus(contractId, coopId).Result;
     }
 
-    public string CoopId() => coopId;
-    public string ContractId() => contractId;
-    public string StrippedCoopId() => coopId.Substring(0, 6);
+    public string CoopId() => coopStatus.CoopIdentifier;
+    public string ContractId() => coopStatus.ContractIdentifier;
+    public string StrippedCoopId() => CoopId().Substring(0, 6);
     public uint BoostedCount()
     {
         uint count = 0;
@@ -44,13 +39,50 @@ public class Coop
         return count;
     }
 
-    private void requestCoopStatus()
+    /// <summary>
+    /// Get the completion time of the coop in Unix Epoch time format. This accounts for players offline time.
+    /// </summary>
+    /// <returns>
+    /// <c>double</c> Unix Epoch timestamp of the coops completion time.
+    /// </returns>
+    public double UnixCompletionTime()
     {
-        coopStatus = Request.GetCoopStatus(contractId, coopId).Result;
+        double unixTimestamp = utils.ConvertToUnixTimestamp(DateTime.UtcNow);
+
+        // Get completion time if all goals have been met and the coop is done
+        if (coopStatus.HasSecondsSinceAllGoalsAchieved)
+        {
+            return Math.Floor(unixTimestamp - coopStatus.SecondsSinceAllGoalsAchieved);
+        }
+
+        // Find how many eggs are left to produce until the final goal is reached
+        double amountLeft = Request.GetContract(ContractId())   // Get the target eggs for final AAA reward
+            .GradeSpecs[4]                                      // Will correct this in future to accept any grade
+            .Goals
+            .Last()
+            .TargetAmount
+            - coopStatus.TotalAmount;   // Coops current contributed eggs
+        double totalProductionRateInSecs = 0;   // All players contribution rates
+
+        // Calculate each players contribution during offline time
+        foreach (var player in coopStatus.Contributors)
+        {
+            double offlineTimeInSeconds = -player.FarmInfo.Timestamp;
+            double productionRateInSecs = player.ContributionRate;
+
+            amountLeft -= offlineTimeInSeconds * productionRateInSecs;
+            totalProductionRateInSecs += productionRateInSecs;  // Add players contribution to the total
+        }
+
+        // Calculate time to complete remaining eggs to ship
+        double timeToCompleteInSeconds = amountLeft / totalProductionRateInSecs;
+
+        return unixTimestamp + timeToCompleteInSeconds;
+
     }
 
-    public void TestingGrounds()
+    private void requestCoopStatus()
     {
-        Console.WriteLine(coopStatus);
+        coopStatus = Request.GetCoopStatus(ContractId(), CoopId()).Result;
     }
 }
