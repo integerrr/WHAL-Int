@@ -14,8 +14,10 @@ internal class Program
 
         Console.WriteLine(Config.EID);
 
-        Coop coop = new("panama-canal-2024", "watery-poop-chute");
-        Console.WriteLine("Total boost tokens = {0}", coop.TotalTokens());
-        // coop.TestingGrounds();
+        Coop coop = new("panama-canal-2024","crying830");
+        Console.WriteLine(coop.Duration());
+        // var coop = Request.GetCoopStatus("waffle-2024", "garden227").Result;
+        // Console.WriteLine(coop.SecondsRemaining);
+
     }
 }

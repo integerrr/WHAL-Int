@@ -5,7 +5,7 @@ namespace WHAL_Int.Maj;
 
 public class Coop
 {
-    private ContractCoopStatusResponse? coopStatus;
+    private ContractCoopStatusResponse coopStatus;
 
     public Coop(string contractId, string coopId)
     {
