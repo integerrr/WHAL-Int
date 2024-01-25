@@ -34,16 +34,35 @@ public class utils
         return Math.Floor(diff.TotalSeconds);
     }
 
-    public static string CenteredString(string s, int width)
-{
-    if (s.Length >= width)
+    public static string SecondsToDuration(double seconds)
     {
-        return s;
+        // Find the total number of days, hours and minutes from the duration
+        double day = Math.Floor(seconds / utils.SECONDS_IN_A_DAY);
+        double hour = Math.Floor((seconds - day * utils.SECONDS_IN_A_DAY) / utils.SECONDS_IN_AN_HOUR);
+        double min = Math.Floor((seconds - day * utils.SECONDS_IN_A_DAY - hour * utils.SECONDS_IN_AN_HOUR) / utils.SECONDS_IN_A_MINUTE);
+
+        // Convert into string format of dd/hh/mm
+        string coopDurationAsString = "";
+
+        if (day > 99) return "too long";
+
+        coopDurationAsString += day > 0 ? $"{day}d" : "";
+        coopDurationAsString += hour > 0 ? $"{hour}h" : "";
+        coopDurationAsString += min > 0 ? $"{min}m" : "";
+
+        return coopDurationAsString;
     }
 
-    int leftPadding = (width - s.Length) / 2;
-    int rightPadding = width - s.Length - leftPadding;
+    public static string CenteredString(string s, int width)
+    {
+        if (s.Length >= width)
+        {
+            return s;
+        }
 
-    return new string(' ', leftPadding) + s + new string(' ', rightPadding);
-}
+        int leftPadding = (width - s.Length) / 2;
+        int rightPadding = width - s.Length - leftPadding;
+
+        return new string(' ', leftPadding) + s + new string(' ', rightPadding);
+    }
 }
