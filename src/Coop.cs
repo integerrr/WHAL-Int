@@ -77,7 +77,7 @@ public class Coop
         // Calculate time to complete remaining eggs to ship
         double timeToCompleteInSeconds = amountLeft / totalProductionRateInSecs;
 
-        return Math.Min(unixTimestamp + timeToCompleteInSeconds,9999999999);
+        return Math.Min(Math.Floor(unixTimestamp + timeToCompleteInSeconds),9999999999);
     }
 
     /// <summary>

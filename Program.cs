@@ -14,10 +14,10 @@ internal class Program
 
         Console.WriteLine(Config.EID);
 
-        Coop coop = new("panama-canal-2024","crying830");
-        Console.WriteLine(coop.Duration());
-        // var coop = Request.GetCoopStatus("waffle-2024", "garden227").Result;
-        // Console.WriteLine(coop.SecondsRemaining);
+        Console.OutputEncoding = System.Text.Encoding.Unicode;
+
+        srucTable sruc = new srucTable("spring-2019", "intact860", "evolve046", "mortar845", "roller678", "mosaic076");
+        Console.WriteLine(sruc.GetSrucTable());
 
     }
 }
