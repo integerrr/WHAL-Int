@@ -5,42 +5,16 @@ namespace WHAL_Int.Maj;
 
 public class Coop
 {
-    private ContractCoopStatusResponse? coopStatus;
+    private ContractCoopStatusResponse coopStatus;
 
-    public Coop(string contractId, string coopId)
+    public Coop(ContractCoopStatusResponse coopStatus)
     {
-        coopStatus = Request.GetCoopStatus(contractId, coopId).Result;
+        this.coopStatus = coopStatus;
     }
 
-    public string CoopId() => coopStatus.CoopIdentifier;
-    public string ContractId() => coopStatus.ContractIdentifier;
-    public string StrippedCoopId() => CoopId().Substring(0, 6);
-    public uint BoostedCount()
-    {
-        uint count = 0;
-        foreach (var player in coopStatus.Contributors)
-        {
-            if (player.BoostTokensSpent >= 6)
-            {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public uint TotalTokens()
-    {
-        uint count = 0;
-        foreach (var player in coopStatus.Contributors)
-        {
-            count += player.BoostTokensSpent;
-            count += player.BoostTokens;
-        }
-        return count;
-    }
-
-    private void requestCoopStatus()
-    {
-        coopStatus = Request.GetCoopStatus(ContractId(), CoopId()).Result;
-    }
+    public string CoopId => coopStatus.CoopIdentifier;
+    public string ContractId => coopStatus.ContractIdentifier;
+    public string StrippedCoopId => CoopId.Substring(0, 6);
+    public int BoostedCount => coopStatus.Contributors.Count(x => x.BoostTokensSpent >= 6);
+    public int TotalTokens => coopStatus.Contributors.Sum(x => (int)(x.BoostTokensSpent + x.BoostTokens));
 }
