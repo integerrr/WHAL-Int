@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Net;
 using Ei;
 using Google.Protobuf;
@@ -40,7 +41,7 @@ public class Request
         return await makeEggIncApiRequest("get_periodicals", getPeriodicalsRequest, PeriodicalsResponse.Parser.ParseFrom);
     }
 
-    private static async Task<T> makeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod, bool isAuthenticatedMsg = true)
+    private static async Task<T> makeEggIncApiRequest<T>(string endpoint, IMessage data, Func<byte[], T> parseMethod, bool isAuthenticatedMsg = true)
     {
         byte[] bytes;
         using (var stream = new MemoryStream())
@@ -56,13 +57,23 @@ public class Request
         if (isAuthenticatedMsg)
         {
             AuthenticatedMessage authMsg = AuthenticatedMessage.Parser.ParseFrom(Convert.FromBase64String(response));
-            return parseMethod(authMsg.Message);
+            byte[] responseBytes = authMsg.Message.ToByteArray();
+            if (authMsg.Compressed)
+            {
+                using (var decompressStream = new ZLibStream(new MemoryStream(responseBytes), CompressionMode.Decompress))
+                {
+                    var decompressed = new MemoryStream();
+                    decompressStream.CopyTo(decompressed);
+                    responseBytes = decompressed.ToArray();
+
+                }
+            }
+            return parseMethod(responseBytes);
         }
         else
         {
-            return parseMethod(ByteString.CopyFrom(Convert.FromBase64String(response)));
+            return parseMethod(Convert.FromBase64String(response));
         }
-
     }
 
     private static async Task<string> postRequest(string endpoint, FormUrlEncodedContent body)
