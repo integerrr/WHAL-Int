@@ -1,6 +1,4 @@
-﻿using Ei;
-using WHAL_Int.EggIncApi;
-using WHAL_Int.Maj;
+﻿using WHAL_Int.EggIncApi;
 using WHAL_Int.src;
 
 internal class Program
@@ -13,22 +11,15 @@ internal class Program
             return;
         }
 
-        var coopCodes = new List<(string, string)>
-        {
-            ("spring-2019", "mortar845"),
-            ("spring-2019", "bexley079"),
-            ("spring-2019", "roller678"),
-            ("spring-2019", "vannes204"),
-            ("spring-2019", "jiexiu737"),
-            ("spring-2019", "mosaic076"),
-            ("spring-2019", "oshawa381")
-        };
+        string testContractId = "spring-2019";
+        var coopCodes = new List<string>{"mortar845", "bexley079", "roller678", "vannes204", "jiexiu737", "mosaic076", "oshawa381"};
+
+        var activeContract = await new ActiveContractBuilder(testContractId).Build();
 
         var tasks = new List<Task<Coop>>();
-        foreach (var (contractId, coopCode) in coopCodes)
+        foreach (string coopCode in coopCodes)
         {
-            var builder = new CoopBuilder(contractId, coopCode);
-            tasks.Add(builder.Build());
+            tasks.Add(activeContract.AddCoop(coopCode));
         }
 
         var coops = await Task.WhenAll(tasks);

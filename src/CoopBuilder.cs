@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WHAL_Int.EggIncApi;
-using WHAL_Int.Maj;
+﻿using WHAL_Int.EggIncApi;
 
 namespace WHAL_Int.src;
 public class CoopBuilder
