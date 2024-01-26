@@ -6,6 +6,7 @@ public class ActiveContract
 {
     private Contract contract;
     private List<Coop> coops = new List<Coop>();
+    public IEnumerable<Coop> Coops => coops.AsEnumerable();
 
     public ActiveContract(Contract contract) => this.contract = contract;
 
