@@ -1,7 +1,7 @@
 using Ei;
 using WHAL_Int.EggIncApi;
 
-namespace WHAL_Int.Maj;
+namespace WHAL_Int.src;
 
 public class Coop
 {
