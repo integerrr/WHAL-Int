@@ -1,4 +1,4 @@
-using System.Net;
+using System.IO.Compression;
 using Ei;
 using Google.Protobuf;
 
@@ -40,7 +40,7 @@ public class Request
         return await makeEggIncApiRequest("get_periodicals", getPeriodicalsRequest, PeriodicalsResponse.Parser.ParseFrom);
     }
 
-    private static async Task<T> makeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod, bool isAuthenticatedMsg = true)
+    private static async Task<T> makeEggIncApiRequest<T>(string endpoint, IMessage data, Func<byte[], T> parseMethod, bool isAuthenticatedMsg = true)
     {
         byte[] bytes;
         using (var stream = new MemoryStream())
@@ -53,14 +53,14 @@ public class Request
 
         string response = await postRequest(endpoint, new FormUrlEncodedContent(body));
 
-        if (isAuthenticatedMsg)
+        if (!isAuthenticatedMsg)
         {
-            AuthenticatedMessage authMsg = AuthenticatedMessage.Parser.ParseFrom(Convert.FromBase64String(response));
-            return parseMethod(authMsg.Message);
+            return parseMethod(Convert.FromBase64String(response));
         }
         else
         {
-            return parseMethod(ByteString.CopyFrom(Convert.FromBase64String(response)));
+            AuthenticatedMessage authMsg = AuthenticatedMessage.Parser.ParseFrom(Convert.FromBase64String(response));
+            return parseMethod(parseAuthenticatedMsg(authMsg));
         }
 
     }
@@ -72,6 +72,24 @@ public class Request
             string url = $"https://www.auxbrain.com/ei/{endpoint}";
             var response = await client.PostAsync(url, body);
             return await response.Content.ReadAsStringAsync();
+        }
+    }
+
+    private static byte[] parseAuthenticatedMsg(AuthenticatedMessage authMsg)
+    {
+        byte[] resBytes = authMsg.Message.ToByteArray();
+        var resStream = new MemoryStream(resBytes);
+
+        if (authMsg.Compressed)
+        {
+            var zls = new ZLibStream(resStream, CompressionMode.Decompress);
+            var decompressed = new MemoryStream();
+            zls.CopyToAsync(decompressed);
+            return decompressed.ToArray();
+        }
+        else
+        {
+            return resBytes.ToArray();
         }
     }
 }
