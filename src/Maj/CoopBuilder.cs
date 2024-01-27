@@ -1,20 +1,21 @@
-﻿using WHAL_Int.EggIncApi;
+﻿using Ei;
+using WHAL_Int.EggIncApi;
 
 namespace WHAL_Int.Maj;
 public class CoopBuilder
 {
-    private readonly string contractId;
+    private readonly Contract contract;
     private readonly string coopCode;
 
-    public CoopBuilder(string contractId, string coopCode)
+    public CoopBuilder(Contract contract, string coopCode)
     {
-        this.contractId = contractId;
+        this.contract = contract;
         this.coopCode = coopCode;
     }
 
     public async Task<Coop> Build()
     {
-        var coopStatus = await Request.GetCoopStatus(contractId, coopCode);
-        return new Coop(coopStatus);
+        var coopStatus = await Request.GetCoopStatus(contract.Identifier, coopCode);
+        return new Coop(coopStatus, contract);
     }
 }

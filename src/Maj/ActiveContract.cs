@@ -12,7 +12,7 @@ public class ActiveContract
 
     public async Task<Coop> AddCoop(string coopCode)
     {
-        CoopBuilder builder = new(contract.Identifier, coopCode);
+        CoopBuilder builder = new(contract, coopCode);
         Coop coop = await builder.Build();
         coops.Add(coop);
         return coop;
