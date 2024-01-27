@@ -1,6 +1,7 @@
 ﻿using WHAL_Int.EggIncApi;
-using WHAL_Int.src;
+using WHAL_Int.Maj;
 
+namespace WHAL_Int;
 internal class Program
 {
     public static async Task Main(string[] args)

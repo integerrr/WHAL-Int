@@ -1,7 +1,6 @@
 using Ei;
-using WHAL_Int.Maj;
 
-namespace WHAL_Int.src;
+namespace WHAL_Int.Maj;
 
 public class ActiveContract
 {
