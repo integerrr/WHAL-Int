@@ -24,6 +24,6 @@ public class Coop : IComparable<Coop>
     public double TargetShippedEggs => this.gradeSpec.Goals.MaxBy(g => g.TargetAmount)!.TargetAmount;
     public int CompareTo(Coop? other)
     {
-
+        throw new NotImplementedException();
     }
 }
