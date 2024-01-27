@@ -3,7 +3,7 @@ using WHAL_Int.EggIncApi;
 
 namespace WHAL_Int.src;
 
-public class Coop
+public class Coop : IComparable<Coop>
 {
     private ContractCoopStatusResponse coopStatus;
 
@@ -17,4 +17,9 @@ public class Coop
     public string StrippedCoopId => CoopId.Substring(0, 6);
     public int BoostedCount => coopStatus.Contributors.Count(x => x.BoostTokensSpent >= 6);
     public int TotalTokens => coopStatus.Contributors.Sum(x => (int)(x.BoostTokensSpent + x.BoostTokens));
+    public int PredictedCompletionTimeUnix;
+    public int CompareTo(Coop? other)
+    {
+
+    }
 }

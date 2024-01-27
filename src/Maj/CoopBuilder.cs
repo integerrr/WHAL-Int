@@ -1,6 +1,6 @@
 ﻿using WHAL_Int.EggIncApi;
 
-namespace WHAL_Int.src;
+namespace WHAL_Int.Maj;
 public class CoopBuilder
 {
     private readonly string contractId;
