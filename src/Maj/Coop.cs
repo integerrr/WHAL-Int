@@ -64,9 +64,9 @@ public class Coop : IComparable<Coop>
         if (ReferenceEquals(null, other)) return 1;
         int result = PredictedDuration.CompareTo(other.PredictedDuration);
         if (result == 0)
-            result = BoostedCount.CompareTo(other.BoostedCount);
+            result = other.BoostedCount.CompareTo(BoostedCount);
         if (result == 0)
-            result = TotalTokens.CompareTo(other.TotalTokens);
+            result = other.TotalTokens.CompareTo(TotalTokens);
         if (result == 0)
             result = PredictedCompletionTimeUnix.CompareTo(other.PredictedCompletionTimeUnix);
         return result;
