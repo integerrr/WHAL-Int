@@ -1,4 +1,5 @@
 using Ei;
+using WHAL_Int.Formatter;
 
 namespace WHAL_Int.Maj;
 
@@ -22,6 +23,8 @@ public class Coop : IComparable<Coop>
         this.coopStatus = coopStatus;
         this.gradeSpec = contract.GradeSpecs.SingleOrDefault(g => g.Grade == coopStatus.Grade)!;
         this.contractFarmTimeLimit = contract.LengthSeconds;
+        this.PredictedCompletionTimeUnix = new DiscordTimestamp(0);
+        this.PredictedDuration = new CoopDuration(0);
     }
 
     public string CoopId => coopStatus.CoopIdentifier;
@@ -30,8 +33,8 @@ public class Coop : IComparable<Coop>
     public int BoostedCount => coopStatus.Contributors.Count(x => x.BoostTokensSpent >= 6);
     public int TotalTokens => coopStatus.Contributors.Sum(x => (int)(x.BoostTokensSpent + x.BoostTokens));
     public double EggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
-    public int PredictedCompletionTimeUnix { get; } = 0;
-    public int PredictedDuration { get; } = 0;
+    public DiscordTimestamp PredictedCompletionTimeUnix { get; private set; }
+    public CoopDuration PredictedDuration { get; private set; }
     public int CompareTo(Coop? other)
     {
         throw new NotImplementedException();
