@@ -2,9 +2,9 @@ namespace WHAL_Int.Formatter;
 
 public class DiscordTimestamp : IComparable<DiscordTimestamp>
 {
-    public int UnixSeconds { get; set; } = 0;
+    public long UnixSeconds { get; set; } = 0;
 
-    public DiscordTimestamp(int secondsSinceEpoch) => UnixSeconds = secondsSinceEpoch;
+    public DiscordTimestamp(long secondsSinceEpoch) => UnixSeconds = secondsSinceEpoch;
 
     public string Format(DiscordTimestampDisplay displayMode)
     {
