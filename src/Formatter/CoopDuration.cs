@@ -13,8 +13,6 @@ public class CoopDuration : IComparable<CoopDuration>
 
     public int CompareTo(CoopDuration? other)
     {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
-        return DurationInSeconds.CompareTo(other.DurationInSeconds);
+        return other is null ? 1 : DurationInSeconds.CompareTo(other.DurationInSeconds);
     }
 }

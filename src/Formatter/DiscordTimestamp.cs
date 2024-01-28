@@ -25,9 +25,7 @@ public class DiscordTimestamp : IComparable<DiscordTimestamp>
 
     public int CompareTo(DiscordTimestamp? other)
     {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
-        return UnixSeconds.CompareTo(other.UnixSeconds);
+        return other is null ? 1 : UnixSeconds.CompareTo(other.UnixSeconds);
     }
 }
 

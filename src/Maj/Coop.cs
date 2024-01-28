@@ -60,8 +60,7 @@ public class Coop : IComparable<Coop>
 
     public int CompareTo(Coop? other)
     {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
+        if (other is null) return 1;
         int result = PredictedDuration.CompareTo(other.PredictedDuration);
         if (result == 0)
             result = other.BoostedCount.CompareTo(BoostedCount);
