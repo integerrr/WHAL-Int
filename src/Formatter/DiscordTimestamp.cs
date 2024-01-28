@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace WHAL_Int.Formatter;
 
 public class DiscordTimestamp : IComparable<DiscordTimestamp>
@@ -17,7 +19,7 @@ public class DiscordTimestamp : IComparable<DiscordTimestamp>
             DiscordTimestampDisplay.FullDateTime => 'f',
             DiscordTimestampDisplay.FullDateTimeDayOfWeek => 'F',
             DiscordTimestampDisplay.Relative => 'R',
-            _ => 'f'
+            _ => throw new InvalidEnumArgumentException(),
         };
 
         return $"`<t:{UnixSeconds}:{identifier}>`";
