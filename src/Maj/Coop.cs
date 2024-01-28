@@ -35,8 +35,18 @@ public class Coop : IComparable<Coop>
     public double EggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
     public DiscordTimestamp PredictedCompletionTimeUnix { get; private set; }
     public CoopDuration PredictedDuration { get; private set; }
+
     public int CompareTo(Coop? other)
     {
-        throw new NotImplementedException();
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        int result = PredictedDuration.CompareTo(other.PredictedDuration);
+        if (result == 0)
+            result = BoostedCount.CompareTo(other.BoostedCount);
+        if (result == 0)
+            result = TotalTokens.CompareTo(other.TotalTokens);
+        if (result == 0)
+            result = PredictedCompletionTimeUnix.CompareTo(other.PredictedCompletionTimeUnix);
+        return result;
     }
 }

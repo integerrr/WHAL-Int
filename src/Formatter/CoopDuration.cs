@@ -1,6 +1,6 @@
 namespace WHAL_Int.Formatter;
 
-public class CoopDuration
+public class CoopDuration : IComparable<CoopDuration>
 {
     public int DurationInSeconds { get; set; } = 0;
 
@@ -9,5 +9,12 @@ public class CoopDuration
     public string Format()
     {
         throw new NotImplementedException();
+    }
+
+    public int CompareTo(CoopDuration? other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        return DurationInSeconds.CompareTo(other.DurationInSeconds);
     }
 }
