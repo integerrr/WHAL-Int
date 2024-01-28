@@ -12,8 +12,8 @@ internal class Program
             return;
         }
 
-        string testContractId = "spring-2019";
-        var coopCodes = new List<string>{"mortar845", "bexley079", "roller678", "vannes204", "jiexiu737", "mosaic076", "oshawa381"};
+        string testContractId = "starlink";
+        var coopCodes = new List<string>{"padang283", "qamdo843", "minden586", "ovalle332", "gwadar600", "telde527"};
 
         var activeContract = await new ActiveContractBuilder(testContractId).Build();
 
@@ -24,9 +24,10 @@ internal class Program
         }
 
         var coops = await Task.WhenAll(tasks);
-        foreach (var coop in coops)
+        var orderedCoops = coops.OrderBy(x => x);
+        foreach (var coop in orderedCoops)
         {
-            Console.WriteLine($"{coop.CoopId}: {coop.TotalTokens:D2} tokens");
+            Console.WriteLine($"{coop.CoopId}: {coop.PredictedDuration.DurationInSeconds} seconds total predicted.");
         }
     }
 }
