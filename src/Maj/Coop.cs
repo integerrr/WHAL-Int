@@ -7,24 +7,31 @@ public class Coop : IComparable<Coop>
 {
     private readonly ContractCoopStatusResponse coopStatus;
     private readonly Contract.Types.GradeSpec gradeSpec;
-    private double contractFarmTimeLimit { get; init; }
+    private double contractFarmMaximumTimeAllowed { get; init; }
+    private double coopAllowableTimeRemaining => coopStatus.SecondsRemaining;
     private double eggGoal => this.gradeSpec.Goals.MaxBy(g => g.TargetAmount)!.TargetAmount;
     private double shippedEggs => this.coopStatus.TotalAmount;
+
     private double totalShippingRate =>
         this.coopStatus.Contributors.Select(player => player.ContributionRate).Sum();
 
     // `FarmInfo.Timestamp` is basically (LastSyncUnix - currentUnix) in seconds, so the negative is required in the maths
+    // Credits to WHALE for figuring out the maths for this :happywiggle:
     private double totalOfflineEggs =>
         this.coopStatus.Contributors.Select(player => player.ContributionRate * -(player.FarmInfo.Timestamp)).Sum();
     private double eggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
+    private long predictedSecondsRemaining => Convert.ToInt64(eggsRemaining / totalShippingRate);
+    private readonly long unixNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
     public Coop(ContractCoopStatusResponse coopStatus, Contract contract)
     {
         this.coopStatus = coopStatus;
         this.gradeSpec = contract.GradeSpecs.SingleOrDefault(g => g.Grade == coopStatus.Grade)!;
-        this.contractFarmTimeLimit = contract.LengthSeconds;
-        this.PredictedCompletionTimeUnix = new DiscordTimestamp(0);
-        this.PredictedDuration = new CoopDuration(0);
+        this.contractFarmMaximumTimeAllowed = contract.LengthSeconds;
+        this.PredictedCompletionTimeUnix = new DiscordTimestamp(unixNow + predictedSecondsRemaining);
+        this.PredictedDuration = new CoopDuration(Convert.ToInt64(contractFarmMaximumTimeAllowed -
+                                                                  coopAllowableTimeRemaining +
+                                                                  predictedSecondsRemaining));
     }
 
     /// <summary>
