@@ -47,10 +47,10 @@ public class Coop : IComparable<Coop>
     /// </summary>
     public string StrippedCoopId => CoopId.Substring(0, 6);
     /// <summary>
-    /// Returns the number of players that has spent more than or equal to 6 tokens.
-    /// 6 tokens spent usually denotes that the particular player has boosted/began boosting in a SR setting.
+    /// Returns the number of players that has spent more than or equal to 4 tokens.
+    /// 4 tokens spent usually denotes that the particular player has boosted/began boosting in a SR setting.
     /// </summary>
-    public int BoostedCount => coopStatus.Contributors.Count(x => x.BoostTokensSpent >= 6);
+    public int BoostedCount => coopStatus.Contributors.Count(x => x.BoostTokensSpent >= 4);
     /// <summary>
     /// Returns the combined total amount of tokens of all players in the Coop, including tokens that have been spent.
     /// </summary>
