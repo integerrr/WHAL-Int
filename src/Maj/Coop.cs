@@ -10,13 +10,13 @@ public class Coop : IComparable<Coop>
     private double contractFarmTimeLimit { get; init; }
     private double eggGoal => this.gradeSpec.Goals.MaxBy(g => g.TargetAmount)!.TargetAmount;
     private double shippedEggs => this.coopStatus.TotalAmount;
-
     private double totalShippingRate =>
         this.coopStatus.Contributors.Select(player => player.ContributionRate).Sum();
 
     // `FarmInfo.Timestamp` is basically (LastSyncUnix - currentUnix) in seconds, so the negative is required in the maths
     private double totalOfflineEggs =>
         this.coopStatus.Contributors.Select(player => player.ContributionRate * -(player.FarmInfo.Timestamp)).Sum();
+    private double eggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
 
     public Coop(ContractCoopStatusResponse coopStatus, Contract contract)
     {
@@ -32,7 +32,6 @@ public class Coop : IComparable<Coop>
     public string StrippedCoopId => CoopId.Substring(0, 6);
     public int BoostedCount => coopStatus.Contributors.Count(x => x.BoostTokensSpent >= 6);
     public int TotalTokens => coopStatus.Contributors.Sum(x => (int)(x.BoostTokensSpent + x.BoostTokens));
-    public double EggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
     public DiscordTimestamp PredictedCompletionTimeUnix { get; private set; }
     public CoopDuration PredictedDuration { get; private set; }
 
