@@ -4,12 +4,9 @@ public class DiscordTimestamp
 {
     public int UnixSeconds { get; set; } = 0;
 
-    public DiscordTimestamp(int secondsSinceEpoch)
-    {
-        UnixSeconds = secondsSinceEpoch;
-    }
+    public DiscordTimestamp(int secondsSinceEpoch) => UnixSeconds = secondsSinceEpoch;
 
-    public string Display(DiscordTimestampDisplay displayMode)
+    public string Format(DiscordTimestampDisplay displayMode)
     {
         char identifier = displayMode switch
         {
