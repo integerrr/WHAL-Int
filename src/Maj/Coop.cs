@@ -7,7 +7,7 @@ public class Coop : IComparable<Coop>
 {
     private readonly ContractCoopStatusResponse coopStatus;
     private readonly Contract.Types.GradeSpec gradeSpec;
-    private double contractFarmMaximumTimeAllowed { get; init; }
+    private double contractFarmMaximumTimeAllowed;
     private double coopAllowableTimeRemaining => coopStatus.SecondsRemaining;
     private double eggGoal => this.gradeSpec.Goals.MaxBy(g => g.TargetAmount)!.TargetAmount;
     private double shippedEggs => this.coopStatus.TotalAmount;
