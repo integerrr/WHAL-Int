@@ -17,8 +17,10 @@ public class Coop : IComparable<Coop>
 
     // `FarmInfo.Timestamp` is basically (LastSyncUnix - currentUnix) in seconds, so the negative is required in the maths
     // Credits to WHALE for figuring out the maths for this :happywiggle:
+    // `FarmInfo` is also nullable if the player is `[departed]` or has a private farm
     private double totalOfflineEggs =>
-        coopStatus.Contributors.Select(player => player.ContributionRate * -(player.FarmInfo.Timestamp)).Sum();
+        coopStatus.Contributors.Select(player =>
+            player.ContributionRate * (-(player.FarmInfo?.Timestamp)) ?? 0).Sum();
     private double eggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
     private long predictedSecondsRemaining => Convert.ToInt64(eggsRemaining / totalShippingRate);
     private readonly long unixNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
