@@ -27,6 +27,10 @@ public class Coop : IComparable<Coop>
 
     public Coop(ContractCoopStatusResponse coopStatus, Contract contract)
     {
+        if (coopStatus.ResponseStatus != ContractCoopStatusResponse.Types.ResponseStatus.NoError)
+        {
+            throw new InvalidDataException("Cannot find coop, ResponseStatus = " + coopStatus.ResponseStatus);
+        }
         this.coopStatus = coopStatus;
         gradeSpec = contract.GradeSpecs.SingleOrDefault(g => g.Grade == coopStatus.Grade)!;
         contractFarmMaximumTimeAllowed = contract.LengthSeconds;
