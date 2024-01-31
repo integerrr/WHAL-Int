@@ -13,7 +13,7 @@ internal class Program
         }
 
         string testContractId = "starlink";
-        var coopCodes = new List<string>{"padang283", "qamdo843", "minden586", "ovalle332", "gwadar600", "telde527"};
+        var coopCodes = new List<string> { "padang283", "qamdo843", "minden586", "ovalle332", "gwadar600", "telde527" };
 
         var activeContract = await new ActiveContractBuilder(testContractId).Build();
 
