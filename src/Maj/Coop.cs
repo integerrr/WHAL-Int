@@ -19,8 +19,8 @@ public class Coop : IComparable<Coop>
     // Credits to WHALE for figuring out the maths for this :happywiggle:
     // `FarmInfo` is also nullable if the player is `[departed]` or has a private farm
     private double totalOfflineEggs =>
-        coopStatus.Contributors.Select(player =>
-            player.ContributionRate * (-(player.FarmInfo?.Timestamp)) ?? 0).Sum();
+        coopStatus.Contributors.Sum(player =>
+            player.ContributionRate * (-(player.FarmInfo?.Timestamp) ?? 0));
     private double eggsRemaining => eggGoal - shippedEggs - totalOfflineEggs;
     private long predictedSecondsRemaining => Convert.ToInt64(eggsRemaining / totalShippingRate);
     private readonly long unixNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
