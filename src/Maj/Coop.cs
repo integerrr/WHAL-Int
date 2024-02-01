@@ -19,7 +19,7 @@ public class Coop : IComparable<Coop>
     // Credits to WHALE for figuring out the maths for this :happywiggle:
     private double totalOfflineEggs =>
         coopStatus.Contributors.Select(player => player.ContributionRate * -(player.FarmInfo.Timestamp)).Sum();
-    private double eggsRemaining => shippedEggs >= eggGoal ? 0 : eggGoal - shippedEggs - totalOfflineEggs;
+    private double eggsRemaining => Math.Max(0, eggGoal - shippedEggs - totalOfflineEggs);
     private long predictedSecondsRemaining => Convert.ToInt64(eggsRemaining / totalShippingRate);
     private readonly long unixNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
