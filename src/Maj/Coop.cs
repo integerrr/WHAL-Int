@@ -12,8 +12,7 @@ public class Coop : IComparable<Coop>
     private double eggGoal => gradeSpec.Goals.MaxBy(g => g.TargetAmount)!.TargetAmount;
     private double shippedEggs => coopStatus.TotalAmount;
 
-    private double totalShippingRate =>
-        coopStatus.Contributors.Select(player => player.ContributionRate).Sum();
+    private double totalShippingRate => coopStatus.Contributors.Sum(player => player.ContributionRate);
 
     // `FarmInfo.Timestamp` is basically (LastSyncUnix - currentUnix) in seconds, so the negative is required in the maths
     // Credits to WHALE for figuring out the maths for this :happywiggle:
