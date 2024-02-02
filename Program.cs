@@ -1,4 +1,5 @@
 ﻿using WHAL_Int.EggIncApi;
+using WHAL_Int.Formatter;
 using WHAL_Int.Maj;
 
 namespace WHAL_Int;
@@ -12,22 +13,11 @@ internal class Program
             return;
         }
 
-        string testContractId = "starlink";
+        string contractId = "starlink";
         var coopCodes = new List<string> { "padang283", "qamdo843", "minden586", "ovalle332", "gwadar600", "telde527" };
 
-        var activeContract = await new ActiveContractBuilder(testContractId).Build();
-
-        var tasks = new List<Task<Coop>>();
-        foreach (string coopCode in coopCodes)
-        {
-            tasks.Add(activeContract.AddCoop(coopCode));
-        }
-
-        var coops = await Task.WhenAll(tasks);
-        var orderedCoops = coops.OrderBy(x => x);
-        foreach (var coop in orderedCoops)
-        {
-            Console.WriteLine($"{coop.CoopId}: {coop.PredictedDuration.DurationInSeconds} seconds total predicted.");
-        }
+        // these lines below would be done in a sub menu/file for sruc if we end up going multifunational and make a menu system
+        var contract1 = await ContractProcessor.SetupCoops(contractId, coopCodes);
+        Console.WriteLine(ContractProcessor.FormatContract(contract1, new SrucTableFormatter()));
     }
 }

@@ -4,15 +4,15 @@ namespace WHAL_Int.Maj;
 
 public class ActiveContract
 {
-    private Contract contract;
+    public Contract Contract { get; init; }
     private List<Coop> coops = new List<Coop>();
     public IEnumerable<Coop> Coops => coops.AsEnumerable();
 
-    public ActiveContract(Contract contract) => this.contract = contract;
+    public ActiveContract(Contract contract) => Contract = contract;
 
     public async Task<Coop> AddCoop(string coopCode)
     {
-        CoopBuilder builder = new(contract, coopCode);
+        CoopBuilder builder = new(Contract, coopCode);
         Coop coop = await builder.Build();
         coops.Add(coop);
         return coop;
