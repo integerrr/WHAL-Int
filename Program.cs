@@ -13,11 +13,15 @@ internal class Program
             return;
         }
 
-        string contractId = "starlink";
-        var coopCodes = new List<string> { "padang283", "qamdo843", "minden586", "ovalle332", "gwadar600", "telde527" };
+        string contractId = "passive-challenge-2024";
+        var coopCodes = new List<string> { "locate642", "indeed825", "almost150", "avenue845", "injury372" };
 
-        // these lines below would be done in a sub menu/file for sruc if we end up going multifunational and make a menu system
-        var contract1 = await ContractProcessor.SetupCoops(contractId, coopCodes);
-        Console.WriteLine(ContractProcessor.FormatContract(contract1, new SrucTableFormatter()));
+        var activeContract = await new ActiveContractBuilder(contractId).Build();
+        foreach (string coopCode in coopCodes)
+        {
+            await activeContract.AddCoop(coopCode);
+        }
+
+        Console.WriteLine(new SrucTableFormatter().Format(activeContract));
     }
 }
