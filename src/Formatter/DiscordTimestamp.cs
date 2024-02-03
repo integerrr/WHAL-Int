@@ -22,7 +22,7 @@ public class DiscordTimestamp : IComparable<DiscordTimestamp>
             _ => throw new InvalidEnumArgumentException(),
         };
 
-        return $"`<t:{UnixSeconds}:{identifier}>`";
+        return $"<t:{UnixSeconds}:{identifier}>";
     }
 
     public int CompareTo(DiscordTimestamp? other)
