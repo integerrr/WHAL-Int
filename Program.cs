@@ -21,6 +21,7 @@ internal class Program
         {
             await activeContract.AddCoop(coopCode);
         }
+        activeContract.OrderCoops();
 
         Console.WriteLine(new SrucTableFormatter().Format(activeContract));
     }

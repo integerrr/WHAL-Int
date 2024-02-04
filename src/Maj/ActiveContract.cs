@@ -17,4 +17,9 @@ public class ActiveContract
         coops.Add(coop);
         return coop;
     }
+
+    public void OrderCoops()
+    {
+        coops = new List<Coop>(coops.OrderBy(x => x));
+    }
 }
