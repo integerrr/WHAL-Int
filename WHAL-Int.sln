@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WHAL-Int", "WHAL-Int.csproj", "{B04838AA-28B5-4749-8DDC-3CA69FDD290B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WHAL-Int", "WHAL-Int\WHAL-Int.csproj", "{B04838AA-28B5-4749-8DDC-3CA69FDD290B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{331F4028-C9E9-4FD5-B3A2-77F52F834435}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B04838AA-28B5-4749-8DDC-3CA69FDD290B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B04838AA-28B5-4749-8DDC-3CA69FDD290B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B04838AA-28B5-4749-8DDC-3CA69FDD290B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{331F4028-C9E9-4FD5-B3A2-77F52F834435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{331F4028-C9E9-4FD5-B3A2-77F52F834435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{331F4028-C9E9-4FD5-B3A2-77F52F834435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{331F4028-C9E9-4FD5-B3A2-77F52F834435}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
