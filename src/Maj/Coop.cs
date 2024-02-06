@@ -37,10 +37,10 @@ public class Coop : IComparable<Coop>
         contractFarmMaximumTimeAllowed = contract.LengthSeconds;
         PredictedCompletionTimeUnix =
             new DiscordTimestamp(unixNow + predictedSecondsRemaining - (long)coopStatus.SecondsSinceAllGoalsAchieved);
-        PredictedDuration = new CoopDuration(Convert.ToInt64(contractFarmMaximumTimeAllowed -
-                                                             coopAllowableTimeRemaining +
-                                                             predictedSecondsRemaining -
-                                                             coopStatus.SecondsSinceAllGoalsAchieved));
+        PredictedDuration = new Duration(Convert.ToInt64(contractFarmMaximumTimeAllowed -
+                                                         coopAllowableTimeRemaining +
+                                                         predictedSecondsRemaining -
+                                                         coopStatus.SecondsSinceAllGoalsAchieved));
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class Coop : IComparable<Coop>
     public int TotalTokens => coopStatus.Contributors.Sum(x => (int)(x.BoostTokensSpent + x.BoostTokens));
 
     public DiscordTimestamp PredictedCompletionTimeUnix { get; private set; }
-    public CoopDuration PredictedDuration { get; private set; }
+    public Duration PredictedDuration { get; private set; }
 
     public int CompareTo(Coop? other)
     {
