@@ -2,7 +2,6 @@ namespace WHAL_Int.Formatter;
 
 public class Duration : IComparable<Duration>
 {
-
     public const int SECONDS_IN_A_MINUTE = 60;
     public const int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
     public const int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
@@ -22,8 +21,7 @@ public class Duration : IComparable<Duration>
         string coopDurationAsString = ""
             + (day > 0 ? $"{day}d" : "")
             + (hour > 0 ? $"{hour}h" : "")
-            + $"{min}m"
-        ;
+            + $"{min}m";
 
         return coopDurationAsString;
     }
