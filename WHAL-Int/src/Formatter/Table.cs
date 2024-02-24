@@ -5,31 +5,38 @@ namespace WHAL_Int.Formatter;
 
 public class Table<T>
 {
-    private readonly Dictionary<string, (Func<T, string>, int, StringAlignment)> columns = new();
-    private readonly List<T> dataPoints = new();
+    private readonly List<TableColumn<T>> columns = [];
+    private readonly List<T> dataPoints = [];
 
     public void AddColumn(
         string title,
         Func<T, string> colFunc,
         int colWidth = 5,
         StringAlignment alignment = StringAlignment.Centered
-    ) => columns.Add(title, (colFunc, colWidth, alignment));
+    ) => columns.Add(new TableColumn<T>(title, colFunc, colWidth, alignment));
 
     public void AddDataPoint(T dataPoint) => dataPoints.Add(dataPoint);
 
     public string GetTable()
     {
-        /*
-        string table = string.Join("|", columns.Keys.Select(c => c)) + "\n"
-            + string.Join("\n", dataPoints.Select(x => string.Join("|", columns.Values.Select(f => f(x)))));
-        */
+        string table = "`" +
+                       string.Join("|", columns.Select(c => StringFormatter.Align(c.Name, c.Width, c.Alignment))) +
+                       "`" +
+                       "\n";
 
-        string table = string.Join("|", columns.Keys.Select(c => c)) + "\n";
         foreach (T point in dataPoints)
         {
-            table += string.Join("|", columns.Values.Select(f => StringFormatter.Align(f.Item1(point), f.Item2, f.Item3))) + "\n";
+            table += string.Join("|", columns.Select(c => StringFormatter.Align(c.ColumnFunc(point), c.Width, c.Alignment))) +
+                     "\n";
         }
-
         return table;
     }
+}
+
+public class TableColumn<T>(string name, Func<T, string> colFunc, int width, StringAlignment alignment)
+{
+    public string Name { get; } = name;
+    public Func<T, string> ColumnFunc { get; } = colFunc;
+    public int Width { get; } = width;
+    public StringAlignment Alignment { get; } = alignment;
 }

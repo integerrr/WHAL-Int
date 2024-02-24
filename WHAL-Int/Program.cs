@@ -29,11 +29,11 @@ internal class Program
         var orderedCoops = coops.OrderBy(x => x);
 
         var srucTable = new Table<Coop>();
-        srucTable.AddColumn("`  Coop   ",   (coop => $"[⧉](<https://eicoop-carpet.netlify.app/{coop.ContractId}/{coop.CoopId}>)`{coop.StrippedCoopId} "));
-        srucTable.AddColumn(" Boosted ",    (coop => $"{coop.BoostedCount}"), 9);
-        srucTable.AddColumn(" Tokens ",     (coop => $"{coop.TotalTokens}"), 8);
-        srucTable.AddColumn(" Duration ",   (coop => coop.PredictedDuration.DurationInSeconds < 8640000 ? coop.PredictedDuration.Format() : "too long"), 10);
-        srucTable.AddColumn(" Finish`",     (coop => $"`{coop.PredictedCompletionTimeUnix.Format(DiscordTimestampDisplay.FullDateTime)}"));
+        srucTable.AddColumn("Coop",     (coop => $"[⧉](<https://eicoop-carpet.netlify.app/{coop.ContractId}/{coop.CoopId}>)`{coop.StrippedCoopId}"), 8);
+        srucTable.AddColumn("Boosted",  (coop => $"{coop.BoostedCount}"), 9);
+        srucTable.AddColumn("Tokens",   (coop => $"{coop.TotalTokens}"), 8);
+        srucTable.AddColumn("Duration", (coop => coop.PredictedDuration.DurationInSeconds < 8640000 ? coop.PredictedDuration.Format() : "too long"), 10);
+        srucTable.AddColumn("Finish",   (coop => $"`{coop.PredictedCompletionTimeUnix.Format(DiscordTimestampDisplay.FullDateTime)}"), 8);
 
         foreach (var coop in orderedCoops) { srucTable.AddDataPoint(coop); }
 
