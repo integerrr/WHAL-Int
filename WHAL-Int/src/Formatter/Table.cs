@@ -1,6 +1,3 @@
-using System.Drawing;
-using WHAL_Int.Maj;
-
 namespace WHAL_Int.Formatter;
 
 public class Table<T>
