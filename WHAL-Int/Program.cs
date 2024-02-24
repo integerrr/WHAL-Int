@@ -43,7 +43,8 @@ internal class Program
         Console.WriteLine($"""
             Last updated: {discordTimestampNow.Format(DiscordTimestampDisplay.Relative)}
 
-            {srucTable.GetTable()}
+            {srucTable.GetTableHeader()}
+            {srucTable.GetTableBody()}
             `Primary order based off of duration`
 
             *`!!sruc` to summon an update!*

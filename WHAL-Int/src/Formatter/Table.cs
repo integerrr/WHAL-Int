@@ -14,19 +14,22 @@ public class Table<T>
 
     public void AddDataPoint(T dataPoint) => dataPoints.Add(dataPoint);
 
-    public string GetTable()
-    {
-        string table = "`" +
-                       string.Join("|", columns.Select(c => StringFormatter.Align(c.Name, c.Width, c.Alignment))) +
-                       "`" +
-                       "\n";
+    public string GetTableHeader() =>
+        "`" +
+        string.Join("|", columns.Select(c => StringFormatter.Align(c.Name, c.Width, c.Alignment))) +
+        "`" +
+        "\n";
 
+    public string GetTableBody()
+    {
+        string body = "";
         foreach (T point in dataPoints)
         {
-            table += string.Join("|", columns.Select(c => StringFormatter.Align(c.ColumnFunc(point), c.Width, c.Alignment))) +
-                     "\n";
+            body += string.Join("|",
+                columns.Select(c => StringFormatter.Align(c.ColumnFunc(point), c.Width, c.Alignment)));
+            body += "\n";
         }
-        return table;
+        return body;
     }
 }
 
