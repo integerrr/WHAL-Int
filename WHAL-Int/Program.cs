@@ -1,5 +1,4 @@
-﻿using Ei;
-using WHAL_Int.EggIncApi;
+﻿using WHAL_Int.EggIncApi;
 using WHAL_Int.Formatter;
 using WHAL_Int.Maj;
 
