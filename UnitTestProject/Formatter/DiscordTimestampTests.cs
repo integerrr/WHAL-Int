@@ -22,13 +22,13 @@ public class DiscordTimestampTests
     /// <param name="format">Format to test</param>
     /// <param name="expectedResult">The expected result when formatting with <paramref name="format"/></param>
     [Theory]
-    [InlineData(DiscordTimestampDisplay.ShortDate, "`<t:123:d>`")]
-    [InlineData(DiscordTimestampDisplay.FullDate, "`<t:123:D>`")]
-    [InlineData(DiscordTimestampDisplay.HourMinuteTime, "`<t:123:t>`")]
-    [InlineData(DiscordTimestampDisplay.HourMinuteSecondTime, "`<t:123:T>`")]
-    [InlineData(DiscordTimestampDisplay.FullDateTime, "`<t:123:f>`")]
-    [InlineData(DiscordTimestampDisplay.FullDateTimeDayOfWeek, "`<t:123:F>`")]
-    [InlineData(DiscordTimestampDisplay.Relative, "`<t:123:R>`")]
+    [InlineData(DiscordTimestampDisplay.ShortDate, "<t:123:d>")]
+    [InlineData(DiscordTimestampDisplay.FullDate, "<t:123:D>")]
+    [InlineData(DiscordTimestampDisplay.HourMinuteTime, "<t:123:t>")]
+    [InlineData(DiscordTimestampDisplay.HourMinuteSecondTime, "<t:123:T>")]
+    [InlineData(DiscordTimestampDisplay.FullDateTime, "<t:123:f>")]
+    [InlineData(DiscordTimestampDisplay.FullDateTimeDayOfWeek, "<t:123:F>")]
+    [InlineData(DiscordTimestampDisplay.Relative, "<t:123:R>")]
     public void TestFormat(DiscordTimestampDisplay format, string expectedResult)
     {
         var timestamp = new DiscordTimestamp(123L);
