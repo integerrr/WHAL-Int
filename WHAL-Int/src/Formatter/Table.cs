@@ -17,8 +17,7 @@ public class Table<T>
     public string GetTableHeader() =>
         "`" +
         string.Join("|", columns.Select(c => StringFormatter.Align(c.Name, c.Width, c.Alignment))) +
-        "`" +
-        "\n";
+        "`";
 
     public string GetTableBody()
     {
@@ -27,7 +26,7 @@ public class Table<T>
         {
             body += string.Join("|",
                 columns.Select(c => StringFormatter.Align(c.ColumnFunc(point), c.Width, c.Alignment)));
-            body += "\n";
+            body += point!.Equals(dataPoints.Last()) ? "" : "\n";
         }
         return body;
     }

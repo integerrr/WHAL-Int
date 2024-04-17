@@ -13,10 +13,10 @@ internal class Program
             return;
         }
 
-        string testContractId = "valentines-buildup-2024";
-        var coopCodes = new List<string> { "valley693", "bryony063", "lawyer796", "trophy331", "entire519" };
+        string contractId = "snack-attack";
+        var coopCodes = new List<string> { "itself883", "papacy307" };
 
-        var activeContract = await new ActiveContractBuilder(testContractId).Build();
+        var activeContract = await new ActiveContractBuilder(contractId).Build();
 
         var tasks = new List<Task<Coop>>();
         foreach (string coopCode in coopCodes)
@@ -32,7 +32,7 @@ internal class Program
         srucTable.AddColumn("Boosted",  (coop => $"{coop.BoostedCount}"), 9);
         srucTable.AddColumn("Tokens",   (coop => $"{coop.TotalTokens}"), 8);
         srucTable.AddColumn("Duration", (coop => coop.PredictedDuration.DurationInSeconds < 8640000 ? coop.PredictedDuration.Format() : "too long"), 10);
-        srucTable.AddColumn("Finish",   (coop => $"`{coop.PredictedCompletionTimeUnix.Format(DiscordTimestampDisplay.FullDateTime)}"), 8);
+        srucTable.AddColumn("Finish",   (coop => $"`{coop.PredictedCompletionTimeUnix.Format(DiscordTimestampDisplay.FullDateTime)}"), 20);
 
         foreach (var coop in orderedCoops) { srucTable.AddDataPoint(coop); }
 
