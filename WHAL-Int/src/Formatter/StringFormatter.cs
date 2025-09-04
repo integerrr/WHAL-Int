@@ -40,7 +40,6 @@ public class StringFormatter
             StringAlignment.Centered => Centered(s, width),
             StringAlignment.Right => Right(s, width),
             StringAlignment.None => s,
-
             _ => throw new InvalidEnumArgumentException()
         };
     }

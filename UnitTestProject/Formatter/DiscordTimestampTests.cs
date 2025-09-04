@@ -16,7 +16,7 @@ public class DiscordTimestampTests
     }
 
     /// <summary>
-    /// Test that the <see cref="DiscordTimestamp.Format(DiscordTimestampDisplay)"/> method returns the correctly formatted string for all
+    /// Test that the <see cref="DiscordTimestamp.Format"/> method returns the correctly formatted string for all
     /// possible formats
     /// </summary>
     /// <param name="format">Format to test</param>
